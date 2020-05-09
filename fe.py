@@ -1,14 +1,6 @@
-from keras.optimizers import Adam
 from keras.layers import *
-from keras.models import Sequential
 from keras.models import load_model
-from keras.preprocessing import image
-from keras.utils import to_categorical
-from keras.callbacks import ModelCheckpoint, EarlyStopping
-from sklearn.utils import shuffle
-import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 import numpy as np
 import cv2
 model = load_model("best_model.h5")
