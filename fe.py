@@ -1,6 +1,5 @@
 from keras.optimizers import Adam
 from keras.layers import *
-from keras.models import Sequential
 from keras.models import load_model
 from keras.preprocessing import image
 from keras.utils import to_categorical
