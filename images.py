@@ -4,25 +4,13 @@
 # In[1]:
 
 
-import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import keras
-import re
-import nltk
-from nltk.corpus import stopwords
-import string
-import json
-from time import time
 import pickle
-from keras.applications.vgg16 import VGG16
-from keras.applications.resnet50 import ResNet50, preprocess_input, decode_predictions
+from keras.applications.resnet50 import ResNet50, preprocess_input
 from keras.preprocessing import image
 from keras.models import Model, load_model
 from keras.preprocessing.sequence import pad_sequences
-from keras.utils import to_categorical
-from keras.layers import Input, Dense, Dropout, Embedding, LSTM
-from keras.layers.merge import add
 
 
 # In[2]:
