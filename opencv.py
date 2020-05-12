@@ -18,7 +18,7 @@ from sklearn.utils import shuffle
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-video = cv2.VideoCapture("Little Boy Playing at Toys R Us Superstore Fun For Kids.mp4")
+video = cv2.VideoCapture("test_input/Little Boy Playing at Toys R Us Superstore Fun For Kids.mp4")
 count = 0
 model = load_model("models/best_model.h5")
 chat_id = 1213182814
