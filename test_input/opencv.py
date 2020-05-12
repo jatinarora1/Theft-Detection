@@ -25,7 +25,7 @@ chat_id = 1213182814
 while(video.isOpened()):
 	ret, frame = video.read()
 	if ret == False:
-	    break
+		break
 
 	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 	cv2.imshow('frame',gray)
