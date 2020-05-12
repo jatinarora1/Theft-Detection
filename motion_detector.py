@@ -4,21 +4,21 @@ TOKEN = '1193023091:AAEl9eLOZ6Q0PdDRXF07TprHDXt9tEGuclo'
 bot = telegram.Bot(TOKEN)
 from datetime import datetime
 import images 
-import bot2
+from Telegram_Bot import bot2
 from keras.layers import *
 from keras.models import load_model
 import matplotlib.pyplot as plt
 import numpy as np
 
-model = load_model("models/best_model.h5")
+model = load_model("models/best_model.h5")# model for the emotion detection using the facial expression.
 class_to_label = {0 :'Angry', 1 : 'Disgust', 2:'Fear', 3 :'Happy', 4:'Sad', 5:'Surprise', 6:'Neutral'}
-# cap = cv2.VideoCapture(0)
+
 face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 first_frame=None
 status_list=[None,None]
 times=[]
 chat_id = 1213182814
-#df=pandas.DataFrame(columns=["Start","End"])
+
 
 video=cv2.VideoCapture(0)
 currentframe=0
@@ -94,7 +94,6 @@ while True:
 
             cv2.putText(frame, label, (x,y-10), cv2.FONT_HERSHEY_COMPLEX,1,(255,30,0),2,cv2.LINE_AA)
             cv2.rectangle(frame,(x,y),(x+w,y+h), (0,255,255),2)
-
     
     # cv2.imshow("Emotion", frame)
     
@@ -106,9 +105,7 @@ while True:
 
     key=cv2.waitKey(1)
 
-    if key==ord('q'):
-        if status==1:
-            times.append(datetime.now())
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 #Taking the image of the frame-----------------------------------------------------------------------
     while(True):
@@ -127,4 +124,4 @@ while True:
 
 print(currentframe)
 video.release()
-cv2.destroyAllWindows
+cv2.destroyAllWindows()
