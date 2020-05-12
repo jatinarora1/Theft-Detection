@@ -3,9 +3,8 @@ import telegram
 TOKEN = '1193023091:AAEl9eLOZ6Q0PdDRXF07TprHDXt9tEGuclo'
 bot = telegram.Bot(TOKEN)
 from datetime import datetime
-import images 
-from Telegram_Bot import bot2                                                                                                                           import bot2
-from keras.layers import *
+from activity_captioning import images
+from Telegram_Bot import bot2
 from keras.models import load_model
 import matplotlib.pyplot as plt
 import numpy as np

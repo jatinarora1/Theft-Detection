@@ -67,10 +67,10 @@ def encode_image(img):
 # In[10]:
 
 
-with open("word_to_idx.pkl","rb") as f:
+with open("./pickle_files/word_to_idx.pkl","rb") as f:
     word_to_idx = pickle.load(f)
     
-with open("idx_to_word.pkl","rb") as f:
+with open("./pickle_files/idx_to_word.pkl","rb") as f:
     idx_to_word = pickle.load(f)
 
 

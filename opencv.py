@@ -5,8 +5,8 @@ import telegram
 TOKEN = '1193023091:AAEl9eLOZ6Q0PdDRXF07TprHDXt9tEGuclo'
 bot = telegram.Bot(TOKEN)
 from datetime import datetime
-import images 
-import bot2
+from activity_captioning import images 
+from Telegram_Bot import bot2
 from keras.optimizers import Adam
 from keras.layers import *
 from keras.models import Sequential
