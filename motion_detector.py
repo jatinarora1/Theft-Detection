@@ -13,7 +13,7 @@ import numpy as np
 model = load_model("models/best_model.h5")
 class_to_label = {0 :'Angry', 1 : 'Disgust', 2:'Fear', 3 :'Happy', 4:'Sad', 5:'Surprise', 6:'Neutral'}
 # cap = cv2.VideoCapture(0)
-face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
+face_cascade = cv2.CascadeClassifier("facial_expression/haarcascade_frontalface_default.xml")
 first_frame=None
 status_list=[None,None]
 times=[]
