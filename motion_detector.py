@@ -20,6 +20,7 @@ chat_id = 1213182814
 #df=pandas.DataFrame(columns=["Start","End"])
 
 video=cv2.VideoCapture(0)
+subtractor = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=50, detectShadows=False)
 currentframe=0
 while True:
     check, frame = video.read()
@@ -27,14 +28,14 @@ while True:
     timestamp = datetime.now()
     text = "Unoccupied"
     gray=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
-    gray=cv2.GaussianBlur(gray,(31,31),0)
+    gray=cv2.GaussianBlur(gray,(5,5),0)
 
     if first_frame is None:
         first_frame=gray
         continue
 
     delta_frame=cv2.absdiff(first_frame,gray)
-    thresh_frame=cv2.threshold(delta_frame, 21, 255, cv2.THRESH_BINARY)[1]
+    thresh_frame=cv2.threshold(delta_frame, 25, 255, cv2.THRESH_BINARY)[1]
     thresh_frame=cv2.dilate(thresh_frame, None, iterations=1)
 
     (cnts,_)=cv2.findContours(thresh_frame.copy(),cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -96,16 +97,16 @@ while True:
 
     
     # cv2.imshow("Emotion", frame)
-    
-
-    cv2.imshow("Gray Frame",gray)
+    mask = subtractor.apply(gray)
+    cv2.imshow("Background_subtracted Frame",mask)
+    cv2.imshow("gray",gray)
     cv2.imshow("Delta Frame",delta_frame)
     cv2.imshow("Threshold Frame",thresh_frame)
     cv2.imshow("Color Frame",frame)
 
     key=cv2.waitKey(1)
 
-    if key==ord('q'):
+    if key & ord('q') == 0xFF:
         if status==1:
             times.append(datetime.now())
         break
