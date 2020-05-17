@@ -1,6 +1,5 @@
 import urllib.request
 import cv2
-import numpy as np
 url = 'http://10.78.95.57:8080/video'
 ds_factor=0.6
 cap = cv2.VideoCapture(url)
