@@ -1,4 +1,5 @@
-import cv2
+import numpy as np
+import cv2 
 import telegram
 TOKEN = '1193023091:AAEl9eLOZ6Q0PdDRXF07TprHDXt9tEGuclo'
 bot = telegram.Bot(TOKEN)
@@ -7,8 +8,6 @@ from activity_captioning import images
 from Telegram_Bot import bot2
 from keras.models import load_model
 import matplotlib.pyplot as plt
-import numpy as np
-
 model = load_model("models/best_model.h5")
 class_to_label = {0 :'Angry', 1 : 'Disgust', 2:'Fear', 3 :'Happy', 4:'Sad', 5:'Surprise', 6:'Neutral'}
 # cap = cv2.VideoCapture(0)
@@ -17,68 +16,62 @@ first_frame=None
 status_list=[None,None]
 times=[]
 chat_id = 1213182814
-#df=pandas.DataFrame(columns=["Start","End"])
-
-video=cv2.VideoCapture(0)
-subtractor = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=50, detectShadows=False)
 currentframe=0
-while True:
-    check, frame = video.read()
+
+video  = cv2.VideoCapture(0)
+ret,frame1 = video.read()
+ret,frame2 = video.read()
+while video.isOpened():
+    text = 'Unoccupied'
     status=1
     timestamp = datetime.now()
-    text = "Unoccupied"
-    gray=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
-    gray=cv2.GaussianBlur(gray,(5,5),0)
+    diff = cv2.absdiff(frame1,frame2)
+    gray = cv2.cvtColor(diff,cv2.COLOR_RGB2GRAY)
+    blur = cv2.GaussianBlur(gray,(5,5),0)
+    _,thresh = cv2.threshold(blur,20,255,cv2.THRESH_BINARY)
+    dilated = cv2.dilate(thresh,None,iterations = 3)
+    (cnts,_)=cv2.findContours(dilated.copy(),cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    if first_frame is None:
-        first_frame=gray
-        continue
-
-    delta_frame=cv2.absdiff(first_frame,gray)
-    thresh_frame=cv2.threshold(delta_frame, 25, 255, cv2.THRESH_BINARY)[1]
-    thresh_frame=cv2.dilate(thresh_frame, None, iterations=1)
-
-    (cnts,_)=cv2.findContours(thresh_frame.copy(),cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     for contour in cnts:
         if cv2.contourArea(contour) < 10000:
             continue
-        status=1
-        (x, y, w, h)=cv2.boundingRect(contour)
-        # cv2.rectangle(frame, (x, y), (x+w, y+h), (0,255,0), 3)
+        
         text = "Occupied"
-
-
-    # draw the text and timestamp on the frame
-    ts = timestamp.strftime("%A %d %B %Y %I:%M:%S%p")
-    cv2.putText(frame, "Room Status: {}".format(text), (10, 20),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-    cv2.putText(frame, ts, (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX,0.35, (0, 0, 255), 1)
+        (x, y, w, h)=cv2.boundingRect(contour)
+        cv2.rectangle(frame1, (x, y), (x+w, y+h), (0,255,0), 2)
     
+    cv2.imshow("feed",frame1)
+    
+    ts = timestamp.strftime("%A %d %B %Y %I:%M:%S%p")
+    cv2.putText(frame2, "Room Status: {}".format(text), (10, 20),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+    # cv2.putText(frame1,(10, int(frame1.shape[0] - 10)), cv2.FONT_HERSHEY_SIMPLEX,0.35, (0, 0, 255), 1)
+
     status_list.append(status)
 
     status_list=status_list[-2:]
 
-    
+
            
     if status_list[-1]==1 and status_list[-2]==0:
         times.append(datetime.now())
     if status_list[-1]==0 and status_list[-2]==1:
         times.append(datetime.now())
 
-    
-    gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    
-    faces = face_cascade.detectMultiScale(frame,1.2,5)
-    
 
-    
+    gray_frame = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
+
+    faces = face_cascade.detectMultiScale(frame2,1.2,5)
+
+
+
     if len(faces)  == 0:
         for (x,y,w,h) in faces:
-            cv2.putText(frame, "Processing", (x,y-10), cv2.FONT_HERSHEY_COMPLEX,1,(255,30,0),2,cv2.LINE_AA)
+            cv2.putText(frame2, "Processing", (x,y-10), cv2.FONT_HERSHEY_COMPLEX,1,(255,30,0),2,cv2.LINE_AA)
 
-            cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)
+            cv2.rectangle(frame2,(x,y),(x+w,y+h),(255,0,0),2)
 
-  
+
     label = []
     for face in faces:
         x,y,w, h = face
@@ -92,17 +85,15 @@ while True:
             pred = np.argmax(model.predict(face_section.reshape(1,48,48,1)))
             label = class_to_label[pred]
 
-            cv2.putText(frame, label, (x,y-10), cv2.FONT_HERSHEY_COMPLEX,1,(255,30,0),2,cv2.LINE_AA)
-            cv2.rectangle(frame,(x,y),(x+w,y+h), (0,255,255),2)
+            cv2.putText(frame2, label, (x,y-10), cv2.FONT_HERSHEY_COMPLEX,1,(255,30,0),2,cv2.LINE_AA)
+            cv2.rectangle(frame2,(x,y),(x+w,y+h), (0,255,255),2)
 
-    
-    # cv2.imshow("Emotion", frame)
-    mask = subtractor.apply(gray)
-    cv2.imshow("Background_subtracted Frame",mask)
-    cv2.imshow("gray",gray)
-    cv2.imshow("Delta Frame",delta_frame)
-    cv2.imshow("Threshold Frame",thresh_frame)
-    cv2.imshow("Color Frame",frame)
+
+    frame1 = frame2
+    cv2.imshow("color",frame2)
+    cv2.imshow("Guassian Blur",blur)
+    cv2.imshow("dilate",dilated)
+    ret,frame2 = video.read()
 
     key=cv2.waitKey(1)
 
@@ -114,7 +105,7 @@ while True:
     while(True):
         if(text=="Occupied" and currentframe%200==0):
             name = 'images/'+str(currentframe) + '.jpg'
-            cv2.imwrite(name,frame)
+            cv2.imwrite(name,frame2)
             currentframe += 1
             emotions = str(label)
             caption = images.caption_this_image(name) + "\n" +"person in image seems : " + emotions + "."
