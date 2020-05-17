@@ -12,16 +12,16 @@ def tasveer(name,caption):
   bot.send_photo(chat_id=chat_id, photo=open(name, 'rb'))
   bot.send_message(chat_id=chat_id, text="Alert! Motion detected in Room! "+caption)
 
-def start(bot, update):
+def start(_bot, update):
   update.message.reply_text("I'm a bot, Nice to meet you!obey")
 
-def status(bot,update):
+def status(_bot,update):
   update.message.reply_text("Room status: Unoccupied")
   
-def convert_uppercase(bot, update):
+def convert_uppercase(_bot, update):
   update.message.reply_text(update.message.text.upper())
 
-def send_image(bot,update,link):
+def send_image(bot,_update,link):
   bot.send_photo(link)
 
 def main():
