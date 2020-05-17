@@ -10,7 +10,7 @@ from keras.models import load_model
 import matplotlib.pyplot as plt
 model = load_model("models/best_model.h5")
 class_to_label = {0 :'Angry', 1 : 'Disgust', 2:'Fear', 3 :'Happy', 4:'Sad', 5:'Surprise', 6:'Neutral'}
-# cap = cv2.VideoCapture(0)
+
 face_cascade = cv2.CascadeClassifier("facial_expression/haarcascade_frontalface_default.xml")
 first_frame=None
 status_list=[None,None]
@@ -102,19 +102,19 @@ while video.isOpened():
             times.append(datetime.now())
         break
 #Taking the image of the frame-----------------------------------------------------------------------
-    while(True):
-        if(text=="Occupied" and currentframe%200==0):
-            name = 'images/'+str(currentframe) + '.jpg'
-            cv2.imwrite(name,frame2)
-            currentframe += 1
-            emotions = str(label)
-            caption = images.caption_this_image(name) + "\n" +"person in image seems : " + emotions + "."
-            
-            bot2.tasveer(name,caption)
-            break
-        else:
-            currentframe+=1
-            break
+    
+    if(text=="Occupied" and currentframe%200==0):
+        name = 'images/'+str(currentframe) + '.jpg'
+        cv2.imwrite(name,frame2)
+        currentframe += 1
+        emotions = str(label)
+        caption = images.caption_this_image(name) + "\n" +"person in image seems : " + emotions + "."
+        
+        bot2.tasveer(name,caption)
+        
+    else:
+        currentframe+=1
+        
 
 print(currentframe)
 video.release()
