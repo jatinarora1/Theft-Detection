@@ -1,6 +1,5 @@
 import urllib.request
 import cv2
-import numpy as np
 url = 0
 ds_factor=0.6
 cap = cv2.VideoCapture(url)
