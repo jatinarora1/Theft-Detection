@@ -80,7 +80,7 @@ with open("./pickle_files/idx_to_word.pkl","rb") as f:
 def predict_caption(photo):
     in_text = "startseq"
     max_len = 35
-    for i in range(max_len):
+    for _ in range(max_len):
         sequence = [word_to_idx[w] for w in in_text.split() if w in word_to_idx]
         sequence = pad_sequences([sequence], maxlen=max_len, padding='post')
 

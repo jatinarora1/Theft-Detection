@@ -14,7 +14,7 @@ class VideoCamera(object):
         self.video.release()
     def get_frame(self):
       #extracting frames
-      ret, frame = self.video.read()
+      _, frame = self.video.read()
       frame=cv2.resize(frame,None,fx=ds_factor,fy=ds_factor,
       interpolation=cv2.INTER_AREA)                    
       gray=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
@@ -30,7 +30,7 @@ class VideoCamera(object):
       thresh_frame=cv2.threshold(delta_frame, 21, 255, cv2.THRESH_BINARY)[1]
       thresh_frame=cv2.dilate(thresh_frame, None, iterations=2)
 
-      (cnts,_)=cv2.findContours(thresh_frame.copy(),cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+      (_,_)=cv2.findContours(thresh_frame.copy(),cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
       
       #     text = "Occupied"

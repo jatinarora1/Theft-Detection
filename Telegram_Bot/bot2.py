@@ -22,7 +22,6 @@ def convert_uppercase(bot, update):
   update.message.reply_text(update.message.text.upper())
 
 def send_image(bot,update,link):
-  chat_id = bot.get_updates()[-1].message.chat_id
   bot.send_photo(link)
 
 def main():
