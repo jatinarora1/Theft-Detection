@@ -18,7 +18,7 @@ times=[]
 chat_id = 1213182814
 currentframe=0
 
-video  = cv2.VideoCapture(0)
+video  = cv2.VideoCapture("test_input/Little Boy Playing at Toys R Us Superstore Fun For Kids.mp4")
 ret,frame1 = video.read()
 ret,frame2 = video.read()
 while video.isOpened():

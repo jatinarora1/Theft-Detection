@@ -1,12 +1,35 @@
-<html>
-  <head>
-    <title>Video Streaming Demonstration</title>
-  </head>
-  <body>
-    <h1>Video Streaming Demonstration</h1>
-    <img id="bg" src="{{ url_for('video_feed') }}">
-    <img id="bg" src="{{url_for('video_feed1')}}">
-    <img id="bg" src="{{url_for('video_feed2')}}">
-    <img id="bg" src="{{url_for('video_feed3')}}">
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename = 'style.css')}}">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1>Theft Detection</h1>
+        <nav>
+            <p>Cams</p>
+        </nav>
+    </header>
+    <section>
+        <a href="http://0.0.0.0:5000/video_feed">
+            <img class="cam1" src="{{ url_for('video_feed2') }}" width="600px" height="300px">
+        </a>
+        <a href="http://0.0.0.0:5000/video_feed">
+            <img class="cam1" src="{{ url_for('video_feed2') }}" width="600px" height="300px">
+        </a>
+        <a href="http://0.0.0.0:5000/video_feed">
+            <img class="cam1" src="{{ url_for('video_feed2') }}" width="600px" height="300px">
+        </a>
+        <a href="http://0.0.0.0:5000/video_feed">
+            <img class="cam1" src="{{ url_for('video_feed2') }}" width="600px" height="300px">
+        </a>
+    </section>
+    <footer>
+        
+    </footer>
+    
+</body>
 </html>

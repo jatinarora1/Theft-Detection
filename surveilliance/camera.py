@@ -13,29 +13,37 @@ class VideoCamera(object):
         self.video.release()
     def get_frame(self):
       #extracting frames
-      _, frame = self.video.read()
-      frame=cv2.resize(frame,None,fx=ds_factor,fy=ds_factor,
-      interpolation=cv2.INTER_AREA)                    
-      gray=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
-      # encode OpenCV raw frame to jpg and displaying it
+      _, frame1 = self.video.read()
+      _, frame2 = self.video.read()
+      frame1=cv2.resize(frame1,None,fx=ds_factor,fy=ds_factor,
+      interpolation=cv2.INTER_AREA)
+      frame2=cv2.resize(frame2,None,fx=ds_factor,fy=ds_factor,
+      interpolation=cv2.INTER_AREA)
 
-      blur=cv2.GaussianBlur(gray,(21,21),0)
-      first_frame=None
-      if first_frame is None:
-          first_frame=gray
-          
-
-      delta_frame=cv2.absdiff(first_frame,blur)
-      thresh_frame=cv2.threshold(delta_frame, 21, 255, cv2.THRESH_BINARY)[1]
-      thresh_frame=cv2.dilate(thresh_frame, None, iterations=2)
-
-      (cnts,_)=cv2.findContours(thresh_frame.copy(),cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
+      diff = cv2.absdiff(frame1,frame2)
+      gray = cv2.cvtColor(diff,cv2.COLOR_RGB2GRAY)
+      blur = cv2.GaussianBlur(gray,(5,5),0)
+      blurred = cv2.GaussianBlur(cv2.cvtColor(frame1,cv2.COLOR_RGB2GRAY),(5,5),0)
+      _,thresh = cv2.threshold(blur,20,255,cv2.THRESH_BINARY)
+      dilated = cv2.dilate(thresh,None,iterations = 3)
+      (cnts,_)=cv2.findContours(dilated.copy(),cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
       
+
+      for contour in cnts:
+        if cv2.contourArea(contour) < 10000:
+            continue
+
+        
+        (x, y, w, h)=cv2.boundingRect(contour)
+        cv2.rectangle(frame1, (x, y), (x+w, y+h), (0,255,0), 2)
+      
+      frame1 = frame2
       #     text = "Occupied"
-      ret, jpeg= cv2.imencode('.jpg', gray)
-      ret, jpeg2 = cv2.imencode('.jpg',frame)
-      ret, jpeg3 = cv2.imencode('.jpg',blur)
-      ret, jpeg4 = cv2.imencode('.jpg',thresh_frame)
+      ret, jpeg= cv2.imencode('.jpg', frame1)
+      ret, jpeg2 = cv2.imencode('.jpg',gray)
+      ret, jpeg3 = cv2.imencode('.jpg',blurred)
+      ret, jpeg4 = cv2.imencode('.jpg',dilated)
+
+      _,frame2 = self.video.read()
       return jpeg.tobytes(),jpeg2.tobytes(),jpeg3.tobytes(),jpeg4.tobytes()
  
