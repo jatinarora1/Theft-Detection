@@ -24,7 +24,8 @@ status_list=[None,None]
 times=[]
 chat_id = 1213182814
 currentframe=0
-
+label1 = ''
+label2 = ''
 def detect_and_predict_mask(frame, faceNet, maskNet):
     # grab the dimensions of the frame and then construct a blob
     # from it
@@ -101,7 +102,7 @@ maskNet = tf.keras.models.load_model("model.h5")
 print("[INFO] starting video stream...")
 time.sleep(2.0)
 
-
+frame = 0
 
 video  = cv2.VideoCapture(0)
 ret,frame1 = video.read()
@@ -161,7 +162,7 @@ while video.isOpened():
                 cv2.rectangle(frame2,(x,y),(x+w,y+h),(255,0,0),2)
 
 
-        label1 = []
+        
         for face in faces:
             x,y,w, h = face
             
@@ -176,7 +177,7 @@ while video.isOpened():
 
                 cv2.putText(frame2, label1, (x,y-10), cv2.FONT_HERSHEY_COMPLEX,1,(255,30,0),2,cv2.LINE_AA)
                 cv2.rectangle(frame2,(x,y),(x+w,y+h), (0,255,255),2)
-        label2 = []
+        
         frame = imutils.resize(frame2, width=400)
 
         # detect faces in the frame and determine if they are wearing a
@@ -280,22 +281,41 @@ while video.isOpened():
         if status==1:
             times.append(datetime.now())
         break
+        print(times)
 #Taking the image of the frame-----------------------------------------------------------------------
-    
-    if(text=="Occupied" and currentframe%200==0):
-        name = 'images/'+str(currentframe) + '.jpg'
-        cv2.imwrite(name,frame2)
-        currentframe += 1
-        emotions = str(label1)
-        Mask = str(label2)
+    if mode == "night":
+        if(text=="Occupied" and currentframe%200==0):
+            name = 'images/'+str(currentframe) + '.jpg'
+            
+            cv2.imwrite(name,frame2)
+            
+            currentframe += 1
+            emotions = str(label1)
+            Mask = str(label2)
 
-        caption = images.caption_this_image(name) + "\n" +"person in image seems : " + emotions +"."+ "\n"+Mask+"."
-        print(caption)
-        # bot2.tasveer(name,caption)
-        
+            caption = images.caption_this_image(name) + "\n" +"person in image seems : " + emotions +"."+ "\n"+Mask+"."
+            print(caption)
+            bot2.tasveer(name,caption)
+            
+        else:
+            currentframe+=1
     else:
-        currentframe+=1
-        
+        if(currentframe%200 == 0):
+            name = 'images/'+str(currentframe) + '.jpg'
+            
+            cv2.imwrite(name,frame2)
+            
+            currentframe += 1
+            emotions = str(label1)
+            Mask = str(label2)
+
+            caption = images.caption_this_image(name) + "\n" +"person in image seems : " + emotions +"."+ "\n"+Mask+"."
+            print(caption)
+            bot2.tasveer(name,caption)
+            
+        else:
+            currentframe += 1
+
 
 print(currentframe)
 video.release()
