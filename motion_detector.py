@@ -14,6 +14,7 @@ from keras.preprocessing.image import img_to_array
 import imutils
 import time
 from imutils.video import VideoStream
+import weaponDetector
 import os
 model = load_model("models/best_model.h5")
 class_to_label = {0 :'Angry', 1 : 'Disgust', 2:'Fear', 3 :'Happy', 4:'Sad', 5:'Surprise', 6:'Neutral'}
@@ -153,6 +154,9 @@ def frames(frame1,frame2,text,status_list):
             cv2.putText(frame2, label1, (x,y-10), cv2.FONT_HERSHEY_COMPLEX,1,(125,30,120),2,cv2.LINE_AA)
             # cv2.rectangle(frame2,(x,y),(x+w,y+h), (0,255,255),2)
     
+    
+
+    
     frame = frame2
 
     # detect faces in the frame and determine if they are wearing a
@@ -238,8 +242,11 @@ while video.isOpened():
         currentframe += 1
         emotions = str(label1)
         Mask = str(label2)
-
-        caption = images.caption_this_image(name) + "\n" +"person in image seems : " + emotions +"."+ "\n"+Mask+"."
+        weapon = weaponDetector.prediction(name)
+        weapon = weapon[0]+" "+ str(weapon[1])
+        if len(emotions) == 0:
+            emotions = "Unable to detect emotions"
+        caption = images.caption_this_image(name) + "\n" +"person in image seems : " + emotions +"."+ "\n"+Mask+"."+"\n"+"weapon: "+weapon+"."
         print(caption)
         bot2.tasveer(name,caption)
         
