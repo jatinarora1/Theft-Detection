@@ -38,10 +38,10 @@ def encoding(path):
 def prediction(image):
     encode_image = encoding(image)
     (no_knife,knife) = model.predict(encode_image)[0]
-    if knife>no_knife:
-        return "knife",knife
+    if knife>0.7:
+        return "weapon"
     else:
-        return "no_knife",no_knife
+        return "no_weapon"
 
 
 

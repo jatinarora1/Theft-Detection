@@ -211,23 +211,27 @@ while video.isOpened():
     text = 'Unoccupied'
     status=1
     timestamp = datetime.now()
-    if mode == "night":
-        frame_y,frame_x,blur,dilated,frame,text,label1,label2 = frames(frame1,frame2,text,status_list)
-        frame_x = imutils.resize(frame_y, width=400)
-        frame = imutils.resize(frame_x, width=400)
-        dilated = imutils.resize(dilated, width=400)
-        frame = imutils.resize(frame, width=400)
-        blur = imutils.resize(blur, width=400)
-        cv2.imshow("feed",frame_x)
-        cv2.imshow("color",frame_x)
-        cv2.imshow("Guassian Blur",blur)
-        cv2.imshow("dilate",dilated)
-        cv2.imshow("Mask/NoMask",frame)
-    
-    else:
-        _,_,_,_,frame,text,label1,label2 = frames(frame1,frame2,text,status_list)
-        frame = imutils.resize(frame, width=400)
-        cv2.imshow("Mask/NoMask",frame)
+    try:
+        if mode == "night":
+            frame_y,frame_x,blur,dilated,frame,text,label1,label2 = frames(frame1,frame2,text,status_list)
+            frame_x = imutils.resize(frame_y, width=400)
+            frame = imutils.resize(frame_x, width=400)
+            dilated = imutils.resize(dilated, width=400)
+            frame = imutils.resize(frame, width=400)
+            blur = imutils.resize(blur, width=400)
+            cv2.imshow("feed",frame_x)
+            cv2.imshow("color",frame_x)
+            cv2.imshow("Guassian Blur",blur)
+            cv2.imshow("dilate",dilated)
+            cv2.imshow("Mask/NoMask",frame)
+        
+        elif mode == 'day':
+            _,_,_,_,frame,text,label1,label2 = frames(frame1,frame2,text,status_list)
+            frame = imutils.resize(frame, width=400)
+            cv2.imshow("Mask/NoMask",frame)
+
+    except:
+        print("Some unwanted things are happening")
 
 
     frame1 = frame2
@@ -243,7 +247,7 @@ while video.isOpened():
         emotions = str(label1)
         Mask = str(label2)
         weapon = weaponDetector.prediction(name)
-        weapon = weapon[0]+" "+ str(weapon[1])
+        weapon = weapon
         if len(emotions) == 0:
             emotions = "Unable to detect emotions"
         caption = images.caption_this_image(name) + "\n" +"person in image seems : " + emotions +"."+ "\n"+Mask+"."+"\n"+"weapon: "+weapon+"."
