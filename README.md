@@ -1,4 +1,12 @@
 # Theft-Detection 
+
+### Intruder without mask.
+![result](image6.jpeg)
+
+### Intruder with mask.
+![result](image7.jpeg)
+
+
 Theft is the most common crime committed across the world. According to the National Crime Records Bureau (NCRB), ~80% of the criminal cases are related to theft as shown in figure. Increasing theft rates cause people to suffer both financially and emotionally. Therefore, there is a need to develop a more deterrent surveillance system, which is convenient to use, free from false alarms, minimize human interference, and cost-effective.
        
 ![figur 1](chart.png)
@@ -48,11 +56,7 @@ In pose detection, we used a model trained by Google to detect the poses and the
 In activity captioning,  where we designed an ML model which captions the activity is the combination of computer vision and natural language processing and we firstly tried basic image classification and text generation algorithms but didn't get good outcomes then we used transfer learning for image classification and Bert for text generation and eventually we got great results.
 
 Finally after combining the outcomes of these modules the input for another ML model is created which determines to whom the alert message should be sent and to design such a model we used several classification techniques like logistic regression, SVM, etc. But getting the best results with decision trees.
-### Intruder without mask.
-![result](image6.jpeg)
 
-### Intruder with mask.
-![result](image7.jpeg)
 
 # Conclusion:
 The work carried out in this paper is basically centered to plan and create effective and helpful observation frameworks to unravel security issues which are able to offer assistance to reduce/stop a theft. Though a significant amount of research has been done in the past to solve such security problems, it still remains challenging due to increased complexity and various theft actions that are taking place daily. The system will capture images only when there is any human being in the frame and motions exceed a certain threshold that is pre-set in the system. It thus reduces the volume of data that needs to be processed. Also, it will help to save data space by not capturing static images which usually do not contain the object of interest. Users using this system need not worry about supervising the cameras all the time instead the system will inform the user about the activities happening and will also suggest that the user should take some action or not. After successfully implementing the project, it can be applied in a smart home security system which would be very helpful in auto theft detection for security purposes. It can also be useful in banks, museums, and streets at midnight.
