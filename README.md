@@ -1,4 +1,9 @@
 # Theft-Detection 
+Theft is the most common crime committed across the world. According to the National Crime Records Bureau (NCRB), ~80% of the criminal cases are related to theft as shown in figure. Increasing theft rates cause people to suffer both financially and emotionally. Therefore, there is a need to develop a more deterrent surveillance system, which is convenient to use, free from false alarms, minimize human interference, and cost-effective.
+       
+![figur 1](chart.png)
+ 
+ Machine Learning (ML) techniques prove to be fruitful in developing efficient surveillance systems. This paper aims to design a theft detection and monitoring system, which would be capable to detect theft using a motion-sensing camera using ML and alarm the owner with an alert message along with the captured image of that instance of motion. 
  
 The system consists of several levels of surveillance at each level the activity in each frame of the video will be monitored thoroughly using ML models, which are solely trained to perform their specific job. There are a total of six levels of surveillance and the system consists of two modes (i.e. day and night) and it will totally depend on the user which mode is required at the moment. 
 
