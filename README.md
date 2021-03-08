@@ -1,5 +1,8 @@
 # Theft-Detection 
 
+## DISCLAIMER:
+Accuracy of activity captioning is low. You have to work on that!!
+
 ### Intruder without mask.
 ![result](image6.jpeg)
 
