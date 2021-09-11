@@ -6,11 +6,11 @@ bot = telegram.Bot(TOKEN)
 from datetime import datetime
 from activity_captioning import images
 from Telegram_Bot import bot2
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from keras.applications.mobilenet_v2 import preprocess_input
-from keras.preprocessing.image import img_to_array
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+from tensorflow.keras.preprocessing.image import img_to_array
 import imutils
 import time
 from imutils.video import VideoStream

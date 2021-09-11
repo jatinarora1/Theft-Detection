@@ -7,10 +7,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
-from keras.applications.resnet50 import ResNet50, preprocess_input
-from keras.preprocessing import image
-from keras.models import Model, load_model
-from keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.models import Model, load_model
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 
 # In[2]:
